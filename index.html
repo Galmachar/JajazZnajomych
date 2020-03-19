@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kacper buczynski</title>
+	<meta charset="utf-8" />
+    <style>
+        
+    </style>
+    <script>
+        var audio = new Audio('muzyka.wav');
+        xpoz = 850
+        ypoz = 850
+        var objects = []
+        function obiekt() {
+            this.x = Math.floor(Math.random() * xpoz)
+            this.y = Math.floor(Math.random() * ypoz)
+            this.size = Math.floor(Math.random() * 30) + 20
+            this.speed = Math.floor(Math.random() * 10 + 1)
+            this.direction = Math.floor(Math.random() * 4)
+            this.img = Math.floor(Math.random() * 4) +1
+        }
+        function create() {
+            var obj = {}
+            
+            obj = new obiekt(Math.floor(Math.random() * xpoz), Math.floor(Math.random() * ypoz), Math.floor(Math.random() * 30) + 20, Math.floor(Math.random() * 30) + 20, this.direction = Math.floor(Math.random() * 4), this.img = Math.floor(Math.random() * 4) + 1)
+            objects.push(obj);
+            
+        }
+
+        function gameloop() {
+             audio.play();
+            var canvas = document.querySelector('canvas');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (i = 0; i < objects.length; i++) {
+                    var img = new Image();
+                    img.src = 'img/' + objects[i].img + '.jpg';
+                    ctx.drawImage(img, objects[i].x, objects[i].y);
+                    if (objects[i].direction == 0) {
+                        objects[i].x += objects[i].speed
+                        objects[i].y -= objects[i].speed
+                    }
+                    if (objects[i].direction == 1) {
+                        objects[i].x -= objects[i].speed
+                        objects[i].y -= objects[i].speed
+                    }
+                    if (objects[i].direction == 2) {
+                        objects[i].x -= objects[i].speed
+                        objects[i].y += objects[i].speed
+                    }
+                    if (objects[i].direction == 3) {
+                        objects[i].x += objects[i].speed
+                        objects[i].y += objects[i].speed
+                    }
+                    if (objects[i].x <= 20) {
+                        if (objects[i].direction == 1)
+                            objects[i].direction = 0
+                        if (objects[i].direction == 2)
+                            objects[i].direction = 3
+                    }
+                    if (objects[i].y <= 20) {
+                        if (objects[i].direction == 0)
+                            objects[i].direction = 3
+                        if (objects[i].direction == 1)
+                            objects[i].direction = 2
+                    }
+                    if (objects[i].x >= xpoz) {
+                        if (objects[i].direction == 0)
+                            objects[i].direction = 1
+                        if (objects[i].direction == 3)
+                            objects[i].direction = 2
+                    }
+                    if (objects[i].y >= ypoz) {
+                        if (objects[i].direction == 2)
+                            objects[i].direction = 1
+                        if (objects[i].direction == 3)
+                            objects[i].direction = 0
+                    }
+                }
+            }
+        }
+        function int() {
+          //  clearInterval(petla);
+            petla = setInterval(create, 1000);
+            obrazki = setInterval(gameloop, 17);
+        }
+
+     </script>
+</head>
+<body onload="int()">
+    <canvas height="1050" width="1080">
+    </canvas>
+</body>
+</html>
